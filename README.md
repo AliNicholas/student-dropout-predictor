@@ -52,7 +52,27 @@ Prototype aplikasi dibuat menggunakan Streamlit dan **model Gradient Boosting** 
 
 **Input Features**  
 20 Fitur Teratas berdasarkan PCA loadings:
-'Curricular_units_2nd_sem_approved', 'Curricular_units_2nd_sem_grade', 'Curricular_units_1st_sem_grade', 'Curricular_units_1st_sem_credited', 'Curricular_units_1st_sem_approved', 'Curricular_units_2nd_sem_credited', 'Curricular_units_1st_sem_enrolled', 'Curricular_units_1st_sem_evaluations', 'Age_at_enrollment', 'Application_mode', 'Curricular_units_2nd_sem_enrolled', 'Curricular_units_2nd_sem_evaluations', 'Tuition_fees_up_to_date', 'Marital_status', 'Displaced', 'Daytime_evening_attendance', 'Application_order', 'Gender', 'Previous_qualification', 'Scholarship_holder']
+
+- Curricular_units_2nd_sem_approved
+- Curricular_units_2nd_sem_grade
+- Curricular_units_1st_sem_grade
+- Curricular_units_1st_sem_credited
+- Curricular_units_1st_sem_approved
+- Curricular_units_2nd_sem_credited
+- Curricular_units_1st_sem_enrolled
+- Curricular_units_1st_sem_evaluations
+- Age_at_enrollment
+- Application_mode
+- Curricular_units_2nd_sem_enrolled
+- Curricular_units_2nd_sem_evaluations
+- Tuition_fees_up_to_date
+- Marital_status
+- Displaced
+- Daytime_evening_attendance
+- Application_order
+- Gender
+- Previous_qualification
+- Scholarship_holder
 
 **Output**  
 Prediksi “Dropout” atau “Graduate” beserta confidence score.
@@ -62,7 +82,7 @@ Prediksi “Dropout” atau “Graduate” beserta confidence score.
 
 ## Conclusion
 
-- Model **Gradient Boosting** (best model) mencapai **ROC-AUC 0.953** dan **Accuracy ~91%**
+- Model **LogisticRegression** (best model) mencapai **ROC-AUC 0.950**
 - Mahasiswa program malam dan lulusan previous qualification tertentu memiliki risiko dropout lebih tinggi
 - Admission grade & semester pass rate terbukti sebagai prediktor kuat
 

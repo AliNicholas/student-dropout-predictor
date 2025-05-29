@@ -2,16 +2,18 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import joblib
+import warnings
 
-# 1. Load pipeline (scaler + model)
+warnings.filterwarnings("ignore", message="X does not have valid feature names*")
+
+# load model
 pipe = joblib.load("model/dropout_predict_pipeline.joblib")
 
-# 2. Page config
+# Config
 st.set_page_config(page_title="🎓 Student Dropout Predictor", layout="wide")
 st.title("🎓 Student Dropout Predictor")
 st.write("Masukkan nilai 20 fitur di form berikut, lalu klik **Predict**.")
 
-# 3. Daftar fitur & opsi kategori numerik sesuai README
 features = [
     "Curricular_units_2nd_sem_approved",
     "Curricular_units_2nd_sem_grade",
@@ -37,11 +39,11 @@ features = [
 
 app_modes = [1, 2, 5, 7, 10, 15, 16, 17, 18, 26, 27, 39, 42, 43, 44, 51, 53, 57]
 maritals = [1, 2, 3, 4, 5, 6]
-attends = [1, 0]  # 1=Daytime, 0=Evening
-genders = [1, 0]  # 1=Male,   0=Female
+attends = [1, 0]
+genders = [1, 0]
 prev_q = [1, 2, 3, 4, 5, 6, 9, 10, 12, 14, 15, 19, 38, 39, 40, 42, 43]
 
-# 4. Input form (4 rows x 5 cols)
+
 inputs = {}
 for row in range(4):
     cols = st.columns(5)
@@ -51,18 +53,15 @@ for row in range(4):
             break
         f = features[feat_idx]
 
-        # Numeric float inputs
         if "grade" in f.lower() or "age" in f or f == "Application_order":
             if "grade" in f.lower():
                 inputs[f] = col.number_input(f.replace("_", " ").title(), min_value=0.0, max_value=200.0, step=0.1, value=0.0)
             else:
                 inputs[f] = col.number_input(f.replace("_", " ").title(), min_value=0, max_value=100, step=1, value=0)
 
-        # Binary yes/no
         elif f in ["Tuition_fees_up_to_date", "Displaced", "Scholarship_holder"]:
             inputs[f] = col.selectbox(f.replace("_", " ").title(), options=[0, 1], format_func=lambda x: "No" if x == 0 else "Yes")
 
-        # Categorical codes
         elif f == "Application_mode":
             inputs[f] = col.selectbox("Application Mode", options=app_modes, format_func=lambda x: str(x))
         elif f == "Marital_status":
@@ -98,22 +97,17 @@ for row in range(4):
                 }[x],
             )
 
-        # Remaining are numeric integer
         else:
             inputs[f] = col.number_input(f.replace("_", " ").title(), min_value=0, step=1, value=0)
 
-# 5. Predict button
+# Predict
 if st.button("Predict"):
-    # Buat DataFrame berkolom 'features'
     df_input = pd.DataFrame([[inputs[f] for f in features]], columns=features)
-
-    # Predict
     probs = pipe.predict_proba(df_input)[0]
     pred = pipe.predict(df_input)[0]
     labels = pipe.named_steps["model"].classes_
 
-    # Tampilkan
-    st.subheader("🔍 Hasil Prediksi")
+    st.subheader("🔍 Result")
     outcome_text = "Graduate ✅" if pred == 1 else "Dropout ⚠️"
     st.markdown(f"**Outcome:** {outcome_text}")
     st.markdown(f"**Confidence:** {probs[pred]*100:.2f}%")
