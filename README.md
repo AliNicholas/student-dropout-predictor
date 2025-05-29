@@ -78,7 +78,7 @@ Prototype aplikasi dibuat menggunakan Streamlit dan **model Gradient Boosting** 
 Prediksi “Dropout” atau “Graduate” beserta confidence score.
 
 **Link Prototype**  
-(menyusul)
+https://alinicholas-student-dropout-predictor-app-yodh14.streamlit.app/
 
 ## Conclusion
 
